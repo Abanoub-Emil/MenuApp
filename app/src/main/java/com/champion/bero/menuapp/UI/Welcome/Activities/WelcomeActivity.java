@@ -1,8 +1,10 @@
 package com.champion.bero.menuapp.UI.Welcome.Activities;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,8 +31,8 @@ import retrofit2.Response;
 
 public class WelcomeActivity extends AppCompatActivity implements WelcomeActivityInt {
 
-    LinearLayout MenuLayout;
-    LinearLayout DetailsLayout;
+    ConstraintLayout menuLayout;
+    LinearLayout detailsLayout;
     ImageView mainImage;
     Button mainMenu;
     Button mainLanguage;
@@ -41,8 +43,8 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeActivit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         requestData();
-        MenuLayout = findViewById(R.id.MenuFragment);
-        DetailsLayout = findViewById(R.id.DetailsFragment);
+        menuLayout = findViewById(R.id.MainView);
+        detailsLayout = findViewById(R.id.MasterDetailView);
         getSupportActionBar().hide();
         mainImage = findViewById(R.id.MainImage);
         mainMenu = findViewById(R.id.MainMenu);
@@ -50,6 +52,12 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeActivit
         addFragment(R.id.MenuFragment, new WelcomeFragment());
         addFragment(R.id.DetailsFragment, new DetailFragment());
 
+        mainMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainMenuClicked();
+            }
+        });
 
 //        LayoutParams params = new TableRow.LayoutParams(0, LayoutParams.MATCH_PARENT, 1f);
 //        MenuLayout.setLayoutParams(params);
@@ -87,7 +95,12 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeActivit
             e.printStackTrace();
         }
 
+    }
 
+    private void mainMenuClicked (){
+
+        menuLayout.setVisibility(View.GONE);
+        detailsLayout.setVisibility(View.VISIBLE);
     }
 
 }

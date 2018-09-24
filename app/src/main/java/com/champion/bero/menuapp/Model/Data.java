@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Data implements Serializable{
@@ -16,7 +17,7 @@ public class Data implements Serializable{
     private Restaurant restaurant;
     @SerializedName("list")
     @Expose
-    private List<MenuList> menuList = null;
+    private ArrayList<MenuList> menuList = null;
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -26,11 +27,11 @@ public class Data implements Serializable{
         this.restaurant = restaurant;
     }
 
-    public List<MenuList> getMenuList() {
+    public ArrayList<MenuList> getMenuList() {
         return menuList;
     }
 
-    public void setMenuList(List<MenuList> menuList) {
+    public void setMenuList(ArrayList<MenuList> menuList) {
         this.menuList = menuList;
     }
 

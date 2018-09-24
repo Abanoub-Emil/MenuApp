@@ -17,7 +17,7 @@ public class Item {
     private String title;
     @SerializedName("price")
     @Expose
-    private int price;
+    private float price;
     @SerializedName("description")
     @Expose
     private String description;
@@ -41,11 +41,11 @@ public class Item {
         this.title = title;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

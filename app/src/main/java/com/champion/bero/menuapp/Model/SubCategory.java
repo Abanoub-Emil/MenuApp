@@ -3,25 +3,26 @@ package com.champion.bero.menuapp.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
+
 /**
- * Created by Champion on 23-Sep-18.
+ * Created by Champion on 24-Sep-18.
  */
-public class MenuList {
+public class SubCategory implements Serializable {
 
     @SerializedName("id")
     @Expose
     private int id;
+
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("subCategories")
-    @Expose
-    private ArrayList<SubCategory> subCategories;
+
     @SerializedName("items")
     @Expose
     private List<Item> items = null;
+
 
     public int getId() {
         return id;
@@ -39,14 +40,6 @@ public class MenuList {
         this.title = title;
     }
 
-    public ArrayList<SubCategory> getSubCategories() {
-        return subCategories;
-    }
-
-    public void setSubCategories(ArrayList<SubCategory> subCategories) {
-        this.subCategories = subCategories;
-    }
-
     public List<Item> getItems() {
         return items;
     }
@@ -54,5 +47,4 @@ public class MenuList {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-
 }

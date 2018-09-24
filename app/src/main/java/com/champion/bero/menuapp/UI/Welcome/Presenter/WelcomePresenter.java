@@ -17,6 +17,7 @@ import com.champion.bero.menuapp.RetrofitWrapper.RetrofitClientInstance;
 import com.champion.bero.menuapp.UI.Welcome.Activities.WelcomeActivity;
 import com.champion.bero.menuapp.UI.Welcome.Activities.WelcomeActivityInt;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,11 +40,24 @@ public class WelcomePresenter implements WelcomePresenterInt, APIHelper.OnReques
 
     }
 
-    public void requestData() {
+    public void requestData(boolean isEnglish) {
         try {
-            Call<MyResponse> call = RetrofitClientInstance.getRetrofitInstance()
-                    .create(API.class).getData(new APIKey("b07ae77b9f59af870c91662a23ac8813758b0786"));
-            apiHelper.getData(call, this);
+                        apiHelper.getData(new Callback<MyResponse>() {
+                            @Override
+                            public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                data = response.body().getData();
+                                Bundle myBundle = new Bundle();
+                                myBundle.putSerializable("data", data);
+                                welcomeActivity.setBundle(myBundle);
+                                welcomeActivity.setRestaurantImage(data.getRestaurant().getImage());
+                                System.out.println(data.getRestaurant().getTitle());
+                            }
+
+                            @Override
+                            public void onFailure(Call<MyResponse> call, Throwable t) {
+
+                            }
+                        },isEnglish);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,11 +67,7 @@ public class WelcomePresenter implements WelcomePresenterInt, APIHelper.OnReques
 
     @Override
     public void onSuccess(Data data) {
-        Bundle myBundle = new Bundle();
-        myBundle.putSerializable("data", data);
-        welcomeActivity.setBundle(myBundle);
 
-        welcomeActivity.setRestaurantImage(data.getRestaurant().getImage());
     }
 
 

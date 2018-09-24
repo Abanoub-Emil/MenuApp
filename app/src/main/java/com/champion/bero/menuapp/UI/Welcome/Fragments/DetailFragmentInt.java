@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 public interface DetailFragmentInt {
 
-    public void updateView(ArrayList<Item> items);
+    public void updateView(ArrayList<Item> items, String categoryName);
 }

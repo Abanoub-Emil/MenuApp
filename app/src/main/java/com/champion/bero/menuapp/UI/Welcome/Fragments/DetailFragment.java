@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.champion.bero.menuapp.Model.Item;
 import com.champion.bero.menuapp.R;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class DetailFragment extends Fragment implements DetailFragmentInt {
 
     ImageView backgroundImage;
+    TextView itemCategory;
     ArrayList<Item> items;
     private RecyclerView mRecyclerView;
     private ItemAdapter adapter;
@@ -40,6 +42,7 @@ public class DetailFragment extends Fragment implements DetailFragmentInt {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        itemCategory = view.findViewById(R.id.item_category);
         backgroundImage = view.findViewById(R.id.background_image);
         mRecyclerView =  view.findViewById(R.id.item_recyclerview);
 
@@ -51,9 +54,10 @@ public class DetailFragment extends Fragment implements DetailFragmentInt {
     }
 
     @Override
-    public void updateView(ArrayList<Item> items) {
+    public void updateView(ArrayList<Item> items, String categoryName) {
         this.items = items;
         backgroundImage.setVisibility(View.GONE);
+        itemCategory.setText(categoryName);
         adapter = new ItemAdapter(getActivity(), items);
         mRecyclerView.setAdapter(adapter);
     }

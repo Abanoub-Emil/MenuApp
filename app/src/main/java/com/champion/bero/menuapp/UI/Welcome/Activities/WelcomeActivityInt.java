@@ -14,5 +14,6 @@ public interface WelcomeActivityInt {
 
     public void setRestaurantImage(String url);
     public void setBundle(Bundle bundle);
-    public void sendItemsToDetailsFragment(ArrayList<Item> items);
+    public void changeVisibility();
+    public void sendItemsToDetailsFragment(ArrayList<Item> items, String categoryName);
 }

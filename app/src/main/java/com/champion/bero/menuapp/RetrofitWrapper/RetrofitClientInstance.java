@@ -9,16 +9,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClientInstance  {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://50.87.52.41/~develps7/AutoZ/web/app_dev.php/en/api/restaurant/";
+    private static final String BASE_URL_EN = "http://50.87.52.41/~develps7/AutoZ/web/app_dev.php/en/api/restaurant/";
+    private static final String BASE_URL_AR = "http://50.87.52.41/~develps7/AutoZ/web/app_dev.php/ar/api/restaurant/";
+    private static  String BASE_URL = BASE_URL_EN;
 
+    public static Retrofit getRetrofitInstance(boolean isEnglish) {
 
-    public static Retrofit getRetrofitInstance() {
-        if (retrofit == null) {
+        if (!isEnglish){
+            BASE_URL = BASE_URL_AR;
+        }else {
+            BASE_URL = BASE_URL_EN;
+        }
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-        }
+
         return retrofit;
     }
 }

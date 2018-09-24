@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.champion.bero.menuapp.Model.SubCategory;
 import com.champion.bero.menuapp.R;
+import com.champion.bero.menuapp.UI.Welcome.Fragments.MenuFragmentInt;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,13 +26,15 @@ import java.util.Set;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder> {
 
     private Context context;
+    MenuFragmentInt menuFragmentInt;
     String[] categoriesNames;
-    String[] subCategoryNames = {"ASD", "ASsad","asd"};
+    String[] subCategoryNames;
     HashMap<String, ArrayList<SubCategory>> categoryAndSubCategoriesMap;
 
-    public CategoriesAdapter(Context context, HashMap<String, ArrayList<SubCategory>> categoryAndSubCategoriesMap) {
+    public CategoriesAdapter(Context context, HashMap<String, ArrayList<SubCategory>> categoryAndSubCategoriesMap, MenuFragmentInt menuFragmentInt) {
         this.categoryAndSubCategoriesMap = categoryAndSubCategoriesMap;
         this.context = context;
+        this.menuFragmentInt = menuFragmentInt;
     }
 
 
@@ -71,11 +74,16 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ca
         holder.category_cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.subCategories_rv.getVisibility() == View.GONE && categoryAndSubCategoriesMap.get(categoriesNames[position])!=null) {
-                    holder.subCategories_rv.setVisibility(View.VISIBLE);
-                } else {
-                    holder.subCategories_rv.setVisibility(View.GONE);
+                if(categoryAndSubCategoriesMap.get(categoriesNames[position])!=null){
+                    if (holder.subCategories_rv.getVisibility() == View.GONE ) {
+                        holder.subCategories_rv.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.subCategories_rv.setVisibility(View.GONE);
+                    }
                 }
+
+                menuFragmentInt.getItems(categoriesNames[position]);
+
             }
         });
 

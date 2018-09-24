@@ -10,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.champion.bero.menuapp.Model.Item;
 import com.champion.bero.menuapp.R;
 import com.champion.bero.menuapp.UI.Welcome.Fragments.DetailFragment;
+import com.champion.bero.menuapp.UI.Welcome.Fragments.DetailFragmentInt;
 import com.champion.bero.menuapp.UI.Welcome.Fragments.MenuFragment;
 import com.champion.bero.menuapp.UI.Welcome.Presenter.WelcomePresenter;
 import com.champion.bero.menuapp.UI.Welcome.Presenter.WelcomePresenterInt;
+
+import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity implements WelcomeActivityInt {
 
@@ -82,5 +86,11 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeActivit
 
         addFragment(R.id.MenuFragment, new MenuFragment());
         addFragment(R.id.DetailsFragment, new DetailFragment());
+    }
+
+    @Override
+    public void sendItemsToDetailsFragment(ArrayList<Item> items) {
+        DetailFragmentInt detailFragment = (DetailFragment)getSupportFragmentManager().findFragmentById(R.id.DetailsFragment);
+        detailFragment.updateView(items);
     }
 }

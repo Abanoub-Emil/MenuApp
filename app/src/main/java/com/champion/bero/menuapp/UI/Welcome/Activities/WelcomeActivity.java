@@ -8,26 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TableRow;
 
 import com.bumptech.glide.Glide;
-import com.champion.bero.menuapp.Model.APIKey;
-import com.champion.bero.menuapp.Model.Data;
-import com.champion.bero.menuapp.Model.MyResponse;
-import com.champion.bero.menuapp.Model.Restaurant;
 import com.champion.bero.menuapp.R;
-import com.champion.bero.menuapp.RetrofitWrapper.API;
-import com.champion.bero.menuapp.RetrofitWrapper.RetrofitClientInstance;
 import com.champion.bero.menuapp.UI.Welcome.Fragments.DetailFragment;
-import com.champion.bero.menuapp.UI.Welcome.Fragments.WelcomeFragment;
-import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.champion.bero.menuapp.UI.Welcome.Fragments.MenuFragment;
+import com.champion.bero.menuapp.UI.Welcome.Presenter.WelcomePresenter;
+import com.champion.bero.menuapp.UI.Welcome.Presenter.WelcomePresenterInt;
 
 public class WelcomeActivity extends AppCompatActivity implements WelcomeActivityInt {
 
@@ -36,21 +23,24 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeActivit
     ImageView mainImage;
     Button mainMenu;
     Button mainLanguage;
-    Restaurant restaurant;
+    Bundle bundle;
+    WelcomePresenterInt welcomePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        requestData();
+
+        welcomePresenter = new WelcomePresenter(this);
+        welcomePresenter.requestData();
+        getSupportActionBar().hide();
+
         menuLayout = findViewById(R.id.MainView);
         detailsLayout = findViewById(R.id.MasterDetailView);
-        getSupportActionBar().hide();
         mainImage = findViewById(R.id.MainImage);
         mainMenu = findViewById(R.id.MainMenu);
         mainLanguage = findViewById(R.id.MainLanguage);
-        addFragment(R.id.MenuFragment, new WelcomeFragment());
-        addFragment(R.id.DetailsFragment, new DetailFragment());
+
 
         mainMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,40 +57,30 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeActivit
 
 
     private void addFragment(int viewID, Fragment fragment) {
+        fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(viewID, fragment).commit();
     }
 
-    private void requestData() {
-        try {
-            Call<MyResponse> call = RetrofitClientInstance.getRetrofitInstance()
-                    .create(API.class).getData(new APIKey("b07ae77b9f59af870c91662a23ac8813758b0786"));
-            call.enqueue(new Callback<MyResponse>() {
-                @Override
-                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                    restaurant = response.body().getData().getRestaurant();
-                    System.out.println(restaurant.getTitle());
-                    String url = restaurant.getImage();
-                    Glide.with(WelcomeActivity.this)
-                            .load(url)
-                            .into(mainImage);
-                }
 
-                @Override
-                public void onFailure(Call<MyResponse> call, Throwable t) {
-
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void mainMenuClicked (){
+    private void mainMenuClicked() {
 
         menuLayout.setVisibility(View.GONE);
         detailsLayout.setVisibility(View.VISIBLE);
     }
 
+
+    @Override
+    public void setRestaurantImage(String url) {
+        Glide.with(this)
+                .load(url)
+                .into(mainImage);
+    }
+
+    @Override
+    public void setBundle(Bundle bundle) {
+        this.bundle = bundle ;
+
+        addFragment(R.id.MenuFragment, new MenuFragment());
+        addFragment(R.id.DetailsFragment, new DetailFragment());
+    }
 }
